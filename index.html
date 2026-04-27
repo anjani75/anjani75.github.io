@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anjani Keshri - DevOps Engineer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00d4ff;
+            --primary-dark: #00a8cc;
+            --secondary: #ff006e;
+            --bg-dark: #0a0e27;
+            --bg-darker: #05070f;
+            --text-light: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --accent-green: #00ff88;
+            --accent-orange: #ff8c42;
+            --grid-color: rgba(0, 212, 255, 0.05);
+        }
+
+        body {
+            font-family: 'Courier New', 'Monaco', monospace;
+            background: linear-gradient(135deg, var(--bg-darker) 0%, #1a1f3a 100%);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(0deg, transparent 24%, var(--grid-color) 25%, var(--grid-color) 26%, transparent 27%, transparent 74%, var(--grid-color) 75%, var(--grid-color) 76%, transparent 77%, transparent),
+                linear-gradient(90deg, transparent 24%, var(--grid-color) 25%, var(--grid-color) 26%, transparent 27%, transparent 74%, var(--grid-color) 75%, var(--grid-color) 76%, transparent 77%, transparent);
+            background-size: 50px 50px;
+            animation: grid-move 8s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes grid-move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Glow effects */
+        @keyframes glow-pulse {
+            0%, 100% { text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary); }
+            50% { text-shadow: 0 0 20px var(--primary), 0 0 40px var(--primary), 0 0 60px var(--primary); }
+        }
+
+        @keyframes float-up {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes scan-line {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+
+        .scan-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            animation: scan-line 6s linear infinite;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 0;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        nav::after {
+            content: '$ whoami';
+            position: absolute;
+            right: 0;
+            font-size: 0.8em;
+            color: var(--accent-green);
+            opacity: 0.6;
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--primary);
+            letter-spacing: 2px;
+            animation: glow-pulse 3s ease-in-out infinite;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav a::before {
+            content: '> ';
+            color: var(--accent-green);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        nav a:hover::before {
+            opacity: 1;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 0;
+            border: 2px solid var(--primary);
+            border-radius: 5px;
+            background: rgba(0, 212, 255, 0.02);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 100px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(255, 255, 255, 0.03) 0px,
+                rgba(255, 255, 255, 0.03) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            color: var(--primary);
+            text-shadow: 0 0 20px var(--primary);
+            letter-spacing: 2px;
+            animation: float-up 0.8s ease-out;
+        }
+
+        .hero .title {
+            font-size: 1.8em;
+            color: var(--accent-green);
+            margin-bottom: 10px;
+            animation: float-up 0.8s ease-out 0.1s both;
+        }
+
+        .hero .subtitle {
+            font-size: 1.1em;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            animation: float-up 0.8s ease-out 0.2s both;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+            animation: float-up 0.8s ease-out 0.3s both;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            color: var(--secondary);
+            font-weight: bold;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 100px;
+        }
+
+        .section-title {
+            font-size: 2em;
+            color: var(--primary);
+            margin-bottom: 40px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary);
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .section-title::before {
+            content: '$ cat ';
+            color: var(--accent-green);
+            margin-right: 10px;
+        }
+
+        .section-title::after {
+            content: '.log';
+            color: var(--accent-orange);
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 50px;
+        }
+
+        .about-text h3 {
+            font-size: 1.3em;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            font-weight: normal;
+        }
+
+        .about-text p {
+            margin-bottom: 15px;
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        .about-text strong {
+            color: var(--accent-green);
+        }
+
+        .contact-info {
+            background: rgba(0, 212, 255, 0.05);
+            border-left: 3px solid var(--primary);
+            padding: 20px;
+            border-radius: 3px;
+            margin-top: 30px;
+        }
+
+        .contact-info p {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-info strong {
+            color: var(--accent-green);
+            min-width: 120px;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .skill-card {
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid var(--primary);
+            border-radius: 3px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .skill-card:hover::before {
+            left: 100%;
+        }
+
+        .skill-card:hover {
+            border-color: var(--accent-green);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .skill-category {
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .skill-list {
+            list-style: none;
+        }
+
+        .skill-list li {
+            padding: 6px 0;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+        }
+
+        .skill-list li::before {
+            content: '✓';
+            color: var(--accent-green);
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        /* Experience Section */
+        .experience-timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .experience-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary), var(--accent-green));
+        }
+
+        .experience-item {
+            margin-bottom: 40px;
+            padding-left: 40px;
+            position: relative;
+            animation: float-up 0.6s ease-out backwards;
+        }
+
+        .experience-item:nth-child(1) { animation-delay: 0.1s; }
+        .experience-item:nth-child(2) { animation-delay: 0.2s; }
+        .experience-item:nth-child(3) { animation-delay: 0.3s; }
+        .experience-item:nth-child(4) { animation-delay: 0.4s; }
+
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: -7px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+            border: 2px solid var(--bg-dark);
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .experience-header {
+            margin-bottom: 10px;
+        }
+
+        .job-title {
+            font-size: 1.3em;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .company {
+            color: var(--secondary);
+            font-size: 1.1em;
+        }
+
+        .date {
+            color: var(--text-muted);
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .job-description {
+            margin-top: 15px;
+            color: var(--text-light);
+        }
+
+        .job-description li {
+            margin-left: 20px;
+            margin-bottom: 8px;
+            list-style: none;
+            position: relative;
+        }
+
+        .job-description li::before {
+            content: '→';
+            position: absolute;
+            left: -20px;
+            color: var(--accent-green);
+        }
+
+        /* Education Section */
+        .education-card {
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid var(--primary);
+            border-radius: 3px;
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .degree {
+            font-size: 1.3em;
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .institution {
+            color: var(--secondary);
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .grad-date {
+            color: var(--text-muted);
+            font-size: 0.9em;
+        }
+
+        /* Certificates & Awards */
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .cert-badge {
+            background: rgba(255, 0, 110, 0.05);
+            border: 1px solid var(--secondary);
+            border-radius: 3px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .cert-badge:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(255, 0, 110, 0.3);
+        }
+
+        .cert-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .cert-name {
+            color: var(--secondary);
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .cert-issuer {
+            color: var(--text-muted);
+            font-size: 0.85em;
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            border: 2px solid var(--primary);
+            border-radius: 3px;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            z-index: -1;
+            transition: left 0.3s;
+        }
+
+        .social-link:hover {
+            color: var(--bg-dark);
+            left: 0;
+        }
+
+        .social-link:hover::before {
+            left: 0;
+        }
+
+        .social-icon {
+            font-size: 1.3em;
+        }
+
+        /* Download Resume Button */
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--bg-dark);
+            text-decoration: none;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: all 0.3s;
+            margin: 30px 0;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.3s;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.5);
+        }
+
+        .download-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid rgba(0, 212, 255, 0.2);
+            color: var(--text-muted);
+            margin-top: 100px;
+        }
+
+        footer::before {
+            content: '$ echo "Built with passion & DevOps mindset"';
+            display: block;
+            color: var(--accent-green);
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2em;
+            }
+
+            .stats {
+                gap: 30px;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .section-title {
+                font-size: 1.5em;
+            }
+
+            .hero {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="scan-effect"></div>
+
+    <div class="container">
+        <!-- Navigation -->
+        <nav>
+            <div class="logo">ANJANI.KESHRI</div>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#awards">Awards</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>ANJANI KESHRI</h1>
+                <div class="title">Tech Lead DevOps Engineer</div>
+                <div class="subtitle">7 Years of Cloud Infrastructure & Automation Excellence</div>
+                
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-number">7+</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">80%</div>
+                        <div class="stat-label">Manual Effort Reduced</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">25%</div>
+                        <div class="stat-label">Faster Deployments</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <h3>$ whoami</h3>
+                    <p>Dynamic Tech Lead DevOps with <strong>7+ years</strong> of hands-on experience in cloud infrastructure, containerization, and automation. I specialize in architecting scalable solutions that drive operational excellence and reduce manual overhead by up to <strong>80%</strong>.</p>
+                    
+                    <p>My passion lies in building robust CI/CD pipelines, implementing infrastructure-as-code practices, and mentoring teams to adopt DevOps best practices. I'm committed to turning complex infrastructure challenges into elegant, automated solutions.</p>
+
+                    <p>Currently leading DevOps strategy at <strong>Rahi Platform Technologies</strong>, where I've designed and implemented end-to-end infrastructure provisioning and monitoring systems that power mission-critical applications.</p>
+                </div>
+                
+                <div class="contact-info">
+                    <p><strong>Location:</strong> Pune, Maharashtra, India</p>
+                    <p><strong>Email:</strong> keshrianjani20@gmail.com</p>
+                    <p><strong>Phone:</strong> +91-9057950883</p>
+                    <p><strong>Specialization:</strong> Cloud Infrastructure, Kubernetes, CI/CD, IaC</p>
+                    <p><strong>Current Role:</strong> Tech Lead DevOps</p>
+                    <p><strong>Experience Level:</strong> Senior DevOps Engineer</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Download Resume -->
+        <div style="text-align: center; margin: 50px 0;">
+            <a href="resume.pdf" class="download-btn" download>
+                <span>📥</span>
+                <span>Download Resume (PDF)</span>
+            </a>
+        </div>
+
+        <!-- Skills Section -->
+        <section id="skills">
+            <h2 class="section-title">Skills & Expertise</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-category">🐧 Linux & Scripting</div>
+                    <ul class="skill-list">
+                        <li>Unix/Linux Administration</li>
+                        <li>Bash Scripting</li>
+                        <li>PowerShell</li>
+                        <li>Python Scripting</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-category">🐳 Containerization</div>
+                    <ul class="skill-list">
+                        <li>Docker</li>
+                        <li>Kubernetes</li>
+                        <li>Nomad</li>
+                        <li>Container Orchestration</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-category">☁️ Cloud Platforms</div>
+                    <ul class="skill-list">
+                        <li>AWS</li>
+                        <li>GCP</li>
+                        <li>Azure</li>
+                        <li>Cloud Architecture</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-category">🔧 Infrastructure as Code</div>
+                    <ul class="skill-list">
+                        <li>Terraform</li>
+                        <li>CloudFormation</li>
+                        <li>Ansible</li>
+                        <li>IaC Best Practices</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-category">⚙️ CI/CD & Automation</div>
+                    <ul class="skill-list">
+                        <li>Jenkins</li>
+                        <li>GitLab CI/CD</li>
+                        <li>Github Actions</li>
+                        <li>Deployment Automation</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-category">📊 Monitoring & Logging</div>
+                    <ul class="skill-list">
+                        <li>OpenTelemetry</li>
+                        <li>Elasticsearch</li>
+                        <li>Kibana</li>
+                        <li>System Observability</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-category">🔐 HashiCorp Stack</div>
+                    <ul class="skill-list">
+                        <li>Consul (Service Discovery)</li>
+                        <li>Vault (Secret Management)</li>
+                        <li>Nomad</li>
+                        <li>Infrastructure Security</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-category">💾 Databases & Queues</div>
+                    <ul class="skill-list">
+                        <li>PostgreSQL</li>
+                        <li>Redis</li>
+                        <li>Kafka</li>
+                        <li>Data Pipeline Tools</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <div class="skill-category">🛠️ Version Control</div>
+                    <ul class="skill-list">
+                        <li>Git</li>
+                        <li>GitLab</li>
+                        <li>GitHub</li>
+                        <li>Git Workflows</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience">
+            <h2 class="section-title">Professional Experience</h2>
+            <div class="experience-timeline">
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="job-title">Tech Lead DevOps</div>
+                        <div class="company">Rahi Platform Technologies</div>
+                        <div class="date">October 2023 - Present | Pune</div>
+                    </div>
+                    <ul class="job-description">
+                        <li>Implemented entirely automated infrastructure provisioning using Terraform, reducing manual effort by 80%</li>
+                        <li>Created comprehensive development infrastructure setup from scratch</li>
+                        <li>Designed and deployed end-to-end monitoring using OpenTelemetry, Elasticsearch, and Kibana</li>
+                        <li>Managed containerized microservices using Docker on EC2 instances for high availability</li>
+                        <li>Implemented secure communication with SSL/TLS certificates and certificate management</li>
+                        <li>Led DevOps strategy, mentoring team members on best practices</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="job-title">SRE (Site Reliability Engineer)</div>
+                        <div class="company">UBS Solutions</div>
+                        <div class="date">December 2023 - September 2024 | Pune</div>
+                    </div>
+                    <ul class="job-description">
+                        <li>Provided application support and reliability engineering for WMA (Wealth Management)</li>
+                        <li>Engineered robust monitoring and alerting frameworks using Azure services</li>
+                        <li>Managed middleware tools including Kafka, Apigee, and Cassandra</li>
+                        <li>Served as primary point of contact for production incidents and root cause analysis</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="job-title">DevOps Engineer - SRE</div>
+                        <div class="company">Amdocs</div>
+                        <div class="date">April 2022 - November 2023 | Pune</div>
+                    </div>
+                    <ul class="job-description">
+                        <li>Automated multiple manual operational tasks using Jenkins and Python</li>
+                        <li>Developed Unix Shell deployment scripts for CI/CD pipelines</li>
+                        <li>Implemented and maintained CI/CD pipelines, reducing feature release time by 25%</li>
+                        <li>Developed 20+ automation scripts for monitoring and system checks</li>
+                        <li>Provisioned and configured new environments from initial setup to application delivery</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <div class="experience-header">
+                        <div class="job-title">Application Support / SRE</div>
+                        <div class="company">Tata Consultancy Services (TCS)</div>
+                        <div class="date">July 2019 - April 2022 | Pune</div>
+                    </div>
+                    <ul class="job-description">
+                        <li>Supported multiple payment processing applications on UNIX, MySQL, and Kafka</li>
+                        <li>Developed Unix shell scripts for automation and monitoring workflows</li>
+                        <li>Diagnosed and resolved production issues with minimal downtime</li>
+                        <li>Contributed to major production releases and post-release stability</li>
+                        <li>Mentored 8 team members, accelerating onboarding and strengthening support capabilities</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education">
+            <h2 class="section-title">Education</h2>
+            <div class="education-card">
+                <div class="degree">BTech in Information Technology</div>
+                <div class="institution">Banasthali Vidyapith</div>
+                <div class="grad-date">July 2015 - June 2019</div>
+            </div>
+        </section>
+
+        <!-- Awards & Recognitions -->
+        <section id="awards">
+            <h2 class="section-title">Certificates & Recognition</h2>
+            <div class="cert-grid">
+                <div class="cert-badge">
+                    <div class="cert-icon">🏆</div>
+                    <div class="cert-name">AWS Solutions Architect</div>
+                    <div class="cert-issuer">Amazon Web Services</div>
+                </div>
+
+                <div class="cert-badge">
+                    <div class="cert-icon">📜</div>
+                    <div class="cert-name">Kubernetes Certified</div>
+                    <div class="cert-issuer">CNCF (Cloud Native Computing Foundation)</div>
+                </div>
+
+                <div class="cert-badge">
+                    <div class="cert-icon">🎯</div>
+                    <div class="cert-name">Terraform Associate</div>
+                    <div class="cert-issuer">HashiCorp</div>
+                </div>
+
+                <div class="cert-badge">
+                    <div class="cert-icon">⭐</div>
+                    <div class="cert-name">DevOps Excellence Award</div>
+                    <div class="cert-issuer">TCS (Recognition for Outstanding Contributions)</div>
+                </div>
+
+                <div class="cert-badge">
+                    <div class="cert-icon">🚀</div>
+                    <div class="cert-name">CI/CD Pipeline Expert</div>
+                    <div class="cert-issuer">Amdocs (Team Recognition)</div>
+                </div>
+
+                <div class="cert-badge">
+                    <div class="cert-icon">💡</div>
+                    <div class="cert-name">Innovation & Automation</div>
+                    <div class="cert-issuer">Rahi Platform Technologies</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <h2 class="section-title">Connect With Me</h2>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/keshrianjani" class="social-link" target="_blank">
+                    <span class="social-icon">in</span>
+                    <span>LinkedIn</span>
+                </a>
+                <a href="https://github.com/anjani-keshri" class="social-link" target="_blank">
+                    <span class="social-icon">⚙️</span>
+                    <span>GitHub</span>
+                </a>
+                <a href="https://medium.com/@anjani" class="social-link" target="_blank">
+                    <span class="social-icon">✍️</span>
+                    <span>Medium</span>
+                </a>
+                <a href="mailto:keshrianjani20@gmail.com" class="social-link">
+                    <span class="social-icon">✉️</span>
+                    <span>Email</span>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Anjani Keshri. All rights reserved.</p>
+        <p>Crafted for DevOps excellence | <span style="color: var(--secondary);">Infrastructure as Code Enthusiast</span></p>
+    </footer>
+
+    <script>
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'float-up 0.6s ease-out forwards';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.skill-card, .cert-badge').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
